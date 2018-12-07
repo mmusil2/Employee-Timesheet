@@ -54,15 +54,25 @@ $("#submit").on("click", function(event) {
     });
 });
 
-var dateAdded = firebase.database.ServerValue.TIMESTAMP;
-console.log(dateAdded);
+var date = firebase.database.ServerValue.TIMESTAMP;
+console.log(date);
 
 // database.ref().orderByChild(dateAdded).limitToLast(1).on(child_added, function(snapshot) {
 //     console.log(snapshot);
 // });
 
-database.ref().orderByChild("dateAdded").limitToLast(1).on("child_added", function(snapshot) {
+database.ref().orderByChild("dateAdded").limitToLast(100).on("child_added", function(snapshot) {
     console.log(snapshot.val().name);
+    
+    var tRow = $("<tr>");
+    
+    var nameTd = $("<td>").text(snapshot.val().name);
+    var roleTd = $("<td>").text(snapshot.val().role);
+    var dateTd = $("<td>").text(snapshot.val().date);
+    var rateTd = $("<td>").text(snapshot.val().rate);
 
+    tRow.append(nameTd, roleTd, dateTd, rateTd);
+    
+    $("tbody").append(tRow);
 });
 
